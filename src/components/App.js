@@ -2,20 +2,14 @@ import React, { Component } from 'react';
 import logo from '../logo.svg';
 import '../App.css';
 import PostList from './PostList';
-import {connect} from 'react-redux';
-import {receivePosts} from '../actions';
+
+
 import {Link, Route, Switch} from 'react-router-dom';
 import PostNew from './PostNew';
-import { withRouter } from 'react-router-dom';
+
 
 
 class App extends Component {
-
-  componentDidMount() {
-    this.props.receivePosts();
-  }
-  
-
 
   render() {
     
@@ -29,7 +23,7 @@ class App extends Component {
         <Switch>
         
         <Route path="/posts/new" component={PostNew} />
-        <Route path="/" render={() => <PostList posts={this.props.posts} />} />
+        <Route path="/" render={() => <PostList />} />
         <Route path="/showPost" render={() => <div>Hello</div>} />
         
         
@@ -40,19 +34,5 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  console.log('map state: ', state);
-  return {
-    posts: state.posts
-  }
-}
 
-function mapDispatchToProps(dispatch) {
-  return {
-    receivePosts: () => dispatch(receivePosts())
-  }
-}
-
-
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default App;
