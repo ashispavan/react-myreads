@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from '../logo.svg';
 import '../App.css';
 import PostList from './PostList';
+import PostShow from './PostShow';
 
 
 import {Link, Route, Switch} from 'react-router-dom';
@@ -23,7 +24,8 @@ class App extends Component {
         <Switch>
         
         <Route path="/posts/new" component={PostNew} />
-        <Route path="/" render={() => <PostList />} />
+        <Route path="/posts/:id" component={PostShow} />
+        <Route path="/" component={PostList} />
         <Route path="/showPost" render={() => <div>Hello</div>} />
         
         

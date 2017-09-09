@@ -21,7 +21,7 @@ class PostList extends Component {
             <ul style={{listStyleType: 'none'}}>
             {this.props.posts && _.map(this.props.posts, post =>
             <li key={post.title}>
-                <h4>{post.title}</h4>
+                <Link to={`/posts/${post.id}`}>{post.title}</Link>
                 <p>{post.body}</p>
                 <p>Author: {post.author}</p>
                 <p>Category: {post.category}</p>

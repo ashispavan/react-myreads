@@ -24,7 +24,9 @@ class PostNew extends Component {
             timestamp: Date.now(),
             category: 'react'
         };
-        this.props.createPost({...values, ...defaultFormValues});
+        this.props.createPost({...values, ...defaultFormValues}, () => 
+            this.props.history.push('/')
+        );
     }
 
 
