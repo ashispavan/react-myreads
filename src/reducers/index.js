@@ -1,17 +1,10 @@
-import RECEIVE_POSTS from '../actions';
+import {combineReducers} from 'redux';
+import PostsReducer from './postsReducer';
+import {reducer as formReducer} from 'redux-form';
 
+const rootReducer = combineReducers({
+    posts: PostsReducer,
+    form: formReducer
+});
 
-function postsReducer (postState = [], action) {
-
-    const allPosts = action.posts;
-    
-    switch(action.type) {
-        case RECEIVE_POSTS: 
-            console.log(allPosts);
-            return allPosts;
-        default:
-            return postState;
-    }
-}
-
-export default postsReducer;
+export default rootReducer;
