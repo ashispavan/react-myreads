@@ -9,6 +9,8 @@ import {Provider} from 'react-redux';
 import reducer from './reducers';
 import ReduxPromise from 'redux-promise';
 import { BrowserRouter } from 'react-router-dom';
+import 'semantic-ui-css/semantic.min.css';
+
 
 
 const store = createStore(reducer, applyMiddleware(thunk, ReduxPromise));

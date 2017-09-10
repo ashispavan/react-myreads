@@ -3,6 +3,8 @@ import logo from '../logo.svg';
 import '../App.css';
 import PostList from './PostList';
 import PostShow from './PostShow';
+import PostsByCategory from './PostsByCategory';
+import PostEdit from './PostEdit';
 
 
 import {Link, Route, Switch} from 'react-router-dom';
@@ -23,10 +25,12 @@ class App extends Component {
         <div className="App-intro">
         <Switch>
         
+        <Route path="/:category/posts" component={PostsByCategory} />
+        <Route path="/posts/:id/edit" component={PostEdit} />
         <Route path="/posts/new" component={PostNew} />
         <Route path="/posts/:id" component={PostShow} />
         <Route path="/" component={PostList} />
-        <Route path="/showPost" render={() => <div>Hello</div>} />
+        
         
         
         </Switch>

@@ -4,6 +4,9 @@ import {Link} from 'react-router-dom';
 import {receivePosts} from '../actions';
 import { withRouter } from 'react-router-dom';
 import {connect} from 'react-redux';
+import { Button, Icon, Card } from 'semantic-ui-react';
+import uuid from 'uuid4';
+
 
 class PostList extends Component {
 
@@ -16,17 +19,19 @@ class PostList extends Component {
     render() {
         return (
             <div>
-            <Link to="/posts/new">Add Post</Link>
+            <Link to="/posts/new"><Button primary>Add Post</Button></Link>
             
             <ul style={{listStyleType: 'none'}}>
             {this.props.posts && _.map(this.props.posts, post =>
-            <li key={post.title}>
-                <Link to={`/posts/${post.id}`}>{post.title}</Link>
+            
+            <Card>   <li key={uuid()}>
+                <Link to={`/posts/${post.id}`}><Button>{post.title}</Button></Link>
                 <p>{post.body}</p>
                 <p>Author: {post.author}</p>
-                <p>Category: {post.category}</p>
+                <Link to={`/${post.category}/posts`}>Category: {post.category}</Link>
                 <p>Votes: {post.voteScore}</p>
             </li>
+            </Card> 
             )}
             </ul>
             </div>

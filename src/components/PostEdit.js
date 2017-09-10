@@ -2,30 +2,49 @@ import React, {Component} from 'react';
 import {Field, reduxForm} from 'redux-form';
 import {Link} from 'react-router-dom';
 import uuid from 'uuid4';
-import {createPost} from '../actions';
+import {editPost, fetchPost} from '../actions';
 import {connect} from 'react-redux';
-import { Button, Input } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 
 
-class PostNew extends Component {
+
+class PostEdit extends Component {
+
+    componentDidMount() {
+        const id = this.props.match.params.id;
+        this.props.fetchPost(id).then(() => this.initializeValues());
+    }
+
+    initializeValues() {
+        const initData = {
+            title: this.props.post.title,
+            author: this.props.post.author,
+            body: this.props.post.body
+          };
+      
+          this.props.initialize(initData);
+    }
+    
 
     renderField(field) {
         return (
             <div>
                 <label>{field.label}</label>
-                <Input type="text" {...field.input} />
+                <input type="text" {...field.input} />
                 {field.meta.touched ? field.meta.error : ''}
             </div>
         );
     }
 
     onFormSubmit(values) {
+        const id = this.props.match.params.id;
         const defaultFormValues = {
-            id: uuid(),
+            id: id ? id : uuid(),
             timestamp: Date.now(),
             category: 'react'
         };
-        this.props.createPost({...values, ...defaultFormValues}, () => 
+        
+        this.props.editPost({...values, ...defaultFormValues}, id, () => 
             this.props.history.push('/')
         );
     }
@@ -68,7 +87,13 @@ function validate(values) {
     return errors;
 }
 
+function mapStateToProps({posts}, ownProps) {   
+    return {
+        post: posts[ownProps.match.params.id]
+    }
+}
+
 export default reduxForm({
-    form: 'PostNewForm',
+    form: 'PostEditForm',
     validate
-})(connect(null, {createPost})(PostNew));
+})(connect(mapStateToProps, {editPost, fetchPost})(PostEdit));
