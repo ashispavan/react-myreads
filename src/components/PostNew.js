@@ -4,18 +4,18 @@ import {Link} from 'react-router-dom';
 import uuid from 'uuid4';
 import {createPost} from '../actions';
 import {connect} from 'react-redux';
-import { Button, Input } from 'semantic-ui-react';
+import { Button, Input, Form, Icon } from 'semantic-ui-react';
 
 
 class PostNew extends Component {
 
     renderField(field) {
         return (
-            <div>
+            <Form.Field>
                 <label>{field.label}</label>
-                <Input type="text" {...field.input} />
-                {field.meta.touched ? field.meta.error : ''}
-            </div>
+                <Input style={{width: '500px'}} type="text" {...field.input} />
+                <p>{field.meta.touched ? field.meta.error : ''}</p>
+            </Form.Field>
         );
     }
 
@@ -34,8 +34,9 @@ class PostNew extends Component {
     render() {
         return (
             <div>
-            <Link to="/">Home</Link>
-            <form onSubmit={this.props.handleSubmit(this.onFormSubmit.bind(this))}>
+            
+            <Link to="/"><Button><Icon name='home' />Home</Button></Link>
+            <Form onSubmit={this.props.handleSubmit(this.onFormSubmit.bind(this))}>
             <Field
                 name="title"
                 label="Title"
@@ -52,7 +53,8 @@ class PostNew extends Component {
                 component={this.renderField}
             />
             <Button type="submit">Submit</Button>
-            </form>
+            </Form>
+            
             </div>
         );
     }

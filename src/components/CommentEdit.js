@@ -2,29 +2,26 @@ import React, {Component} from 'react';
 import {Field, reduxForm} from 'redux-form';
 import {Link} from 'react-router-dom';
 import uuid from 'uuid4';
-import {editPost, fetchPost} from '../actions';
+import {getSingleComment, editComment} from '../actions';
 import {connect} from 'react-redux';
 import { Button, Form, Input, Icon } from 'semantic-ui-react';
 
 
-
-class PostEdit extends Component {
+class CommentEdit extends Component {
 
     componentDidMount() {
         const id = this.props.match.params.id;
-        this.props.fetchPost(id).then(() => this.initializeValues());
+        this.props.getSingleComment(id).then(() => this.initializeValues());
     }
 
     initializeValues() {
         const initData = {
-            title: this.props.post.title,
-            author: this.props.post.author,
-            body: this.props.post.body
+            body: this.props.comment.body,
+            author: this.props.comment.author
           };
       
           this.props.initialize(initData);
     }
-    
 
     renderField(field) {
         return (
@@ -38,26 +35,25 @@ class PostEdit extends Component {
 
     onFormSubmit(values) {
         const id = this.props.match.params.id;
+        const parentId = this.props.comment.parentId;
         const defaultFormValues = {
             id: id ? id : uuid(),
-            timestamp: Date.now(),
-            category: 'react'
+            timestamp: Date.now()
         };
         
-        this.props.editPost({...values, ...defaultFormValues}, id, () => 
-            this.props.history.push('/')
+        this.props.editComment({...values, ...defaultFormValues}, id, () => 
+            this.props.history.push(`/posts/${parentId}`)
         );
     }
-
+    
 
     render() {
+        const parentId = this.props.comment.parentId;
         return (
-            <div>
-            <Link to="/"><Button><Icon name='home' />Home</Button></Link>
             <Form onSubmit={this.props.handleSubmit(this.onFormSubmit.bind(this))}>
             <Field
-                name="title"
-                label="Title"
+                name="body"
+                label="Comment"
                 component={this.renderField}
             />
             <Field
@@ -65,14 +61,9 @@ class PostEdit extends Component {
                 label="Author"
                 component={this.renderField}
             />
-            <Field
-                name="body"
-                label="Content"
-                component={this.renderField}
-            />
             <Button type="submit">Submit</Button>
+            <Link to={`/posts/${parentId}`}><Button>Cancel</Button></Link>
             </Form>
-            </div>
         );
     }
 }
@@ -80,20 +71,20 @@ class PostEdit extends Component {
 function validate(values) {
     const errors = {};
 
-    if(!values.title) {
-        errors.title = "Please enter a title for the post";
+    if(!values.body) {
+        errors.title = "Please enter a comment";
     }
 
     return errors;
 }
 
-function mapStateToProps({posts}, ownProps) {   
+function mapStateToProps({comments}, ownProps) {   
     return {
-        post: posts[ownProps.match.params.id]
+        comment: comments[ownProps.match.params.id]
     }
 }
 
 export default reduxForm({
-    form: 'PostEditForm',
+    form: 'CommentEditForm',
     validate
-})(connect(mapStateToProps, {editPost, fetchPost})(PostEdit));
+})(connect(mapStateToProps, {getSingleComment, editComment})(CommentEdit));

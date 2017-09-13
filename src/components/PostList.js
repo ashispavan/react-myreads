@@ -22,17 +22,20 @@ class PostList extends Component {
             <Link to="/posts/new"><Button primary>Add Post</Button></Link>
             
             <ul style={{listStyleType: 'none'}}>
+            <Card.Group>
             {this.props.posts && _.map(this.props.posts, post =>
             
-            <Card>   <li key={uuid()}>
-                <Link to={`/posts/${post.id}`}><Button>{post.title}</Button></Link>
-                <p>{post.body}</p>
+            <Card key={uuid()}>   
+                <li key={uuid()}>
+                <Card.Header><Link to={`/posts/${post.id}`}>{post.title}</Link></Card.Header>
+                <Card.Meta>{post.body}</Card.Meta>
                 <p>Author: {post.author}</p>
                 <Link to={`/${post.category}/posts`}>Category: {post.category}</Link>
                 <p>Votes: {post.voteScore}</p>
-            </li>
+                </li>
             </Card> 
             )}
+            </Card.Group>
             </ul>
             </div>
         );

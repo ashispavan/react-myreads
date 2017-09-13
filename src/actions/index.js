@@ -13,14 +13,21 @@ export const FETCH_POST = 'FETCH_POST';
 export const DELETE_POST = 'DELETE_POST';
 export const FETCH_POSTS_CATEGORIES = 'FETCH__POSTS_CATEGORIES';
 export const EDIT_POST = 'EDIT_POST';
+export const FETCH_COMMENTS = 'FETCH_COMMENTS';
+export const FETCH_COMMENT = 'FETCH_COMMENT';
+export const EDIT_COMMENT = 'EDIT_COMMENT';
+
+const headers = {
+    headers: { 
+        Authorization: 'Random value' 
+    }
+};
 
 
 
 export function receivePosts() {
 
-    const response = axios.get(`${ROOT_URL}/posts`, {
-        headers: { Authorization: 'Random value' }
-    });
+    const response = axios.get(`${ROOT_URL}/posts`, headers);
 
     console.log('Action sent: ', response);
     return {
@@ -30,9 +37,7 @@ export function receivePosts() {
 }
 
 export function createPost(values, callback) {
-    const request = axios.post(`${ROOT_URL}/posts`, values, {
-        headers: { Authorization: 'Random value' }
-    }).then(() => callback());
+    const request = axios.post(`${ROOT_URL}/posts`, values, headers).then(() => callback());
 
     return {
         type: CREATE_POST,
@@ -41,9 +46,7 @@ export function createPost(values, callback) {
 }
 
 export function editPost(values, id, callback) {
-    const request = axios.put(`${ROOT_URL}/posts/${id}`, values, {
-        headers: { Authorization: 'Random value' }
-    }).then(() => callback());
+    const request = axios.put(`${ROOT_URL}/posts/${id}`, values, headers).then(() => callback());
 
     return {
         type: EDIT_POST,
@@ -52,9 +55,7 @@ export function editPost(values, id, callback) {
 }
 
 export function fetchPost(id) {
-    const request = axios.get(`${ROOT_URL}/posts/${id}`, {
-        headers: { Authorization: 'Random value' }
-    });
+    const request = axios.get(`${ROOT_URL}/posts/${id}`, headers);
 
     return {
         type: FETCH_POST,
@@ -63,9 +64,7 @@ export function fetchPost(id) {
 }
 
 export function deletePost(id, callback) {
-    const request = axios.delete(`${ROOT_URL}/posts/${id}`, {
-        headers: { Authorization: 'Random value' }
-    }).then( () => callback());
+    const request = axios.delete(`${ROOT_URL}/posts/${id}`, headers).then( () => callback());
 
     return {
         type: DELETE_POST,
@@ -74,13 +73,38 @@ export function deletePost(id, callback) {
 }
 
 export function getPostsByCategories(category) {
-    const request = axios.get(`${ROOT_URL}/${category}/posts`, {
-        headers: { Authorization: 'Random value' }
-    });
+    const request = axios.get(`${ROOT_URL}/${category}/posts`, headers);
 
     return {
         type: FETCH_POSTS_CATEGORIES,
         payload: request
+    }
+}
+
+export function getComments(id) {
+    const request = axios.get(`${ROOT_URL}/posts/${id}/comments`, headers);
+
+    return {
+        type: FETCH_COMMENTS,
+        payload: request
+    }
+}
+
+export function getSingleComment(id) {
+    const request = axios.get(`${ROOT_URL}/comments/${id}`, headers);
+
+    return {
+        type: FETCH_COMMENT,
+        payload: request
+    }
+}
+
+export function editComment(values, id, callback) {
+    const request = axios.put(`${ROOT_URL}/comments/${id}`, values, headers).then( () => callback());
+
+    return {
+        type: EDIT_COMMENT,
+        payload: id
     }
 }
 
