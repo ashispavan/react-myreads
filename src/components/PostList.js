@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import _ from 'lodash';
 import {Link} from 'react-router-dom';
-import {receivePosts} from '../actions';
+import {receivePosts, votePost} from '../actions';
 import { withRouter } from 'react-router-dom';
 import {connect} from 'react-redux';
 import { Button, Icon, Card } from 'semantic-ui-react';
@@ -15,6 +15,10 @@ class PostList extends Component {
         this.props.receivePosts();
     }
 
+    vote(id, option) {
+        this.props.votePost(id, {option: option});
+    }
+
 
     render() {
         return (
@@ -24,7 +28,7 @@ class PostList extends Component {
             <ul style={{listStyleType: 'none'}}>
             <Card.Group>
             {this.props.posts && _.map(this.props.posts, post =>
-            
+            (!post.deleted &&
             <Card key={uuid()}>   
                 <li key={uuid()}>
                 <Card.Header><Link to={`/posts/${post.id}`}>{post.title}</Link></Card.Header>
@@ -32,8 +36,10 @@ class PostList extends Component {
                 <p>Author: {post.author}</p>
                 <Link to={`/${post.category}/posts`}>Category: {post.category}</Link>
                 <p>Votes: {post.voteScore}</p>
+                <Button onClick={()=>this.vote(post.id, 'upVote')}>Upvote</Button>
+                <Button onClick={()=>this.vote(post.id, 'downVote')}>Downvote</Button>
                 </li>
-            </Card> 
+            </Card>) 
             )}
             </Card.Group>
             </ul>
@@ -49,10 +55,10 @@ function mapStateToProps(state) {
     }
 }
   
-function mapDispatchToProps(dispatch) {
-    return {
-      receivePosts: () => dispatch(receivePosts())
-    }
-}
+// function mapDispatchToProps(dispatch) {
+//     return {
+//       receivePosts: () => dispatch(receivePosts())
+//     }
+// }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostList));
+export default withRouter(connect(mapStateToProps, {receivePosts, votePost})(PostList));

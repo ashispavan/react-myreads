@@ -16,6 +16,7 @@ export const EDIT_POST = 'EDIT_POST';
 export const FETCH_COMMENTS = 'FETCH_COMMENTS';
 export const FETCH_COMMENT = 'FETCH_COMMENT';
 export const EDIT_COMMENT = 'EDIT_COMMENT';
+export const VOTE_POST = 'VOTE_POST';
 
 const headers = {
     headers: { 
@@ -105,6 +106,15 @@ export function editComment(values, id, callback) {
     return {
         type: EDIT_COMMENT,
         payload: id
+    }
+}
+
+export function votePost(id, option) {
+    const request = axios.post(`${ROOT_URL}/posts/${id}`, option, headers);
+
+    return {
+        type: VOTE_POST,
+        payload: request
     }
 }
 

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {fetchPost, deletePost, getComments} from '../actions';
+import {fetchPost, deletePost, getComments, votePost} from '../actions';
 import { Button, Icon, Card } from 'semantic-ui-react';
 import _ from 'lodash';
 import uuid from 'uuid4';
@@ -20,6 +20,8 @@ class PostShow extends Component {
         const id = this.props.match.params.id;
         this.props.deletePost(id, () => this.props.history.push('/'));
     }
+
+
     
     render() {
         const {post, comments} = this.props;
@@ -35,8 +37,11 @@ class PostShow extends Component {
                 
                 <h4>{post.title}</h4>
                 <p>Author: {post.author}</p>
+                <p>Votes: {post.voteScore}</p>
                 <br />
                 <p>{post.body}</p>
+                <Button onClick={()=>this.props.votePost(post.id, { option: 'upVote'})}>Upvote</Button>
+                <Button onClick={()=>this.props.votePost(post.id, { option: 'downVote'})}>Downvote</Button>
 
                 <h2>Comments</h2>
 
@@ -47,7 +52,7 @@ class PostShow extends Component {
                         <li key={uuid()}>
                         <Card.Header>{comment.body}</Card.Header>
                         <Card.Meta>Author: {comment.author}</Card.Meta>
-                        <p>Votes: {post.voteScore}</p>
+                        <p>Votes: {comment.voteScore}</p>
                         <Link to={`/comments/edit/${comment.id}`}><Button>Edit</Button></Link>
                         </li>
                     </Card> 
@@ -65,4 +70,4 @@ function mapStateToProps({posts, comments}, ownProps) {
     }
 }
 
-export default connect(mapStateToProps, {fetchPost, deletePost, getComments})(PostShow);
+export default connect(mapStateToProps, {fetchPost, deletePost, getComments, votePost})(PostShow);
