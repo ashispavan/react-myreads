@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import { getComments, deleteComment, voteComment} from '../actions';
-import { Button, Icon, Card } from 'semantic-ui-react';
+import { Button, Icon, Card, Comment, Header } from 'semantic-ui-react';
 import _ from 'lodash';
 import uuid from 'uuid4';
+import user from '../matt.jpg';
 
 
 class CommentsList extends Component {
@@ -17,24 +18,29 @@ class CommentsList extends Component {
 
     render() {
         return (
-            <ul style={{listStyleType: 'none'}}>
+            <Comment.Group>
+            <Header as='h3' dividing>Comments</Header>
             {this.props.comments && _.map(this.props.comments, comment =>
                 
-                <Card key={uuid()}>   
-                    <li key={uuid()}>
-                    <Card.Header>{comment.body}</Card.Header>
-                    <Card.Meta>Author: {comment.author}</Card.Meta>
-                    <Link to={`/comments/edit/${comment.id}`}><Button>Edit</Button></Link>
-                    <Button color="red" onClick={() => 
-                        this.props.deleteComment(comment.id)}>
-                    <Icon name="delete"></Icon>Delete
-                    </Button>
-                    <Button content="Like" icon="thumbs up" label={{content: comment.voteScore}} onClick={()=>this.props.voteComment(comment.id, { option: 'upVote'})}></Button>
-                    <Button icon="thumbs down" onClick={()=>this.props.voteComment(comment.id, { option: 'downVote'})}></Button>
-                    </li>
-                </Card> 
+                <Comment key={uuid()}>
+                <Comment.Avatar src={user} />   
+                    <Comment.Content key={uuid()}>
+                    <Comment.Author>{comment.author}<Comment.Metadata><Icon name="heart" />{comment.voteScore}</Comment.Metadata></Comment.Author>
+                    <Comment.Text>{comment.body}</Comment.Text>
+                    
+                    <Comment.Actions>
+                        <Link to={`/comments/edit/${comment.id}`}>Edit</Link>
+                        <Comment.Action onClick={() => 
+                            this.props.deleteComment(comment.id)}>
+                            Delete
+                        </Comment.Action>
+                        <Comment.Action onClick={()=>this.props.voteComment(comment.id, { option: 'upVote'})}><Icon size="large" name="thumbs up" /></Comment.Action>
+                        <Comment.Action onClick={()=>this.props.voteComment(comment.id, { option: 'downVote'})}><Icon size="large" name="thumbs down" /></Comment.Action>
+                    </Comment.Actions>
+                    </Comment.Content>
+                </Comment> 
                 )}
-            </ul>
+            </Comment.Group>
         );
     }
 }

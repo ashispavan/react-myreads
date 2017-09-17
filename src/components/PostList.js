@@ -64,7 +64,7 @@ class PostList extends Component {
                 <Link to={`/${post.category}/posts`}>Category: {post.category}</Link>
                 <p>Created: {new Date(post.timestamp).toDateString()}</p>
                 <CommentCount parentId={post.id} />
-                <Button content="Like" icon="thumbs up" label={{content: post.voteScore}} onClick={()=>this.vote(post.id, 'upVote')}></Button>
+                <Button icon="thumbs up" label={{content: post.voteScore}} onClick={()=>this.vote(post.id, 'upVote')}></Button>
                 <Button icon="thumbs down" onClick={()=>this.vote(post.id, 'downVote')}></Button>
                 </li>
             </Card>) 
