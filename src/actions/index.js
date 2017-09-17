@@ -21,6 +21,7 @@ export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const VOTE_COMMENT = 'VOTE_COMMENT';
 export const SORT_BY_DATE = 'SORT_BY_DATE';
 export const SORT_BY_VOTE = 'SORT_BY_VOTE';
+export const COMMENT_COUNT = 'COMMENT_COUNT';
 
 const headers = {
     headers: { 
@@ -34,8 +35,8 @@ export function fetchCategories() {
     const request = axios.get(`${ROOT_URL}/categories`, headers);
 
     return {
-            type: FETCH_CATEGORIES,
-            payload: request
+         type: FETCH_CATEGORIES,
+         payload: request
     }
 }
 
@@ -171,6 +172,15 @@ export function sortPosts(value) {
           type: SORT_BY_VOTE,
           payload: request
         }}
+}
+
+export function getCommentCount(parentId) {
+    const request = axios.get(`${ROOT_URL}/posts/${parentId}/comments`, headers);
+    return {
+        type: COMMENT_COUNT,
+        payload: request,
+        meta: parentId
+    }
 }
 
 // const fetchPosts = () => dispatch => (

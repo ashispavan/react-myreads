@@ -5,7 +5,6 @@ import uuid from 'uuid4';
 import {createPost, fetchCategories} from '../actions';
 import {connect} from 'react-redux';
 import { Button, Input, Form, Icon } from 'semantic-ui-react';
-import _ from 'lodash';
 
 
 class PostNew extends Component {

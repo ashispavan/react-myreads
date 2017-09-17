@@ -4,9 +4,6 @@ import {connect} from 'react-redux';
 import {fetchPost, deletePost, getComments, votePost, deleteComment} from '../actions';
 import CommentsList from './CommentsList';
 import { Button, Icon, Card } from 'semantic-ui-react';
-import _ from 'lodash';
-import uuid from 'uuid4';
-
 
 
 class PostShow extends Component {
@@ -39,8 +36,8 @@ class PostShow extends Component {
                 <p>Votes: {post.voteScore}</p>
                 <br />
                 <p>{post.body}</p>
-                <Button onClick={()=>this.props.votePost(post.id, { option: 'upVote'})}>Upvote</Button>
-                <Button onClick={()=>this.props.votePost(post.id, { option: 'downVote'})}>Downvote</Button>
+                <Button content="Like" icon="thumbs up" label={{content: post.voteScore}} onClick={()=>this.props.votePost(post.id, { option: 'upVote'})}></Button>
+                <Button icon="thumbs down" onClick={()=>this.props.votePost(post.id, { option: 'downVote'})}></Button>
 
                 <h2>Comments</h2>
                 <Link to={`/comments/new/${post.id}`}><Button>Add Comment</Button></Link>

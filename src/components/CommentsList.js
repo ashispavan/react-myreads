@@ -24,14 +24,13 @@ class CommentsList extends Component {
                     <li key={uuid()}>
                     <Card.Header>{comment.body}</Card.Header>
                     <Card.Meta>Author: {comment.author}</Card.Meta>
-                    <p>Votes: {comment.voteScore}</p>
                     <Link to={`/comments/edit/${comment.id}`}><Button>Edit</Button></Link>
                     <Button color="red" onClick={() => 
                         this.props.deleteComment(comment.id)}>
-                    Delete
+                    <Icon name="delete"></Icon>Delete
                     </Button>
-                    <Button onClick={()=>this.props.voteComment(comment.id, { option: 'upVote'})}>Upvote</Button>
-                    <Button onClick={()=>this.props.voteComment(comment.id, { option: 'downVote'})}>Downvote</Button>
+                    <Button content="Like" icon="thumbs up" label={{content: comment.voteScore}} onClick={()=>this.props.voteComment(comment.id, { option: 'upVote'})}></Button>
+                    <Button icon="thumbs down" onClick={()=>this.props.voteComment(comment.id, { option: 'downVote'})}></Button>
                     </li>
                 </Card> 
                 )}

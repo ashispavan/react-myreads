@@ -3,13 +3,12 @@ import logo from '../logo.svg';
 import '../App.css';
 import PostList from './PostList';
 import PostShow from './PostShow';
-import PostsByCategory from './PostsByCategory';
 import PostEdit from './PostEdit';
 import CommentEdit from './CommentEdit';
 import CommentNew from './CommentNew';
 
 
-import {Link, Route, Switch} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import PostNew from './PostNew';
 
 

@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import _ from 'lodash';
 import {Link} from 'react-router-dom';
-import {receivePosts, getPostsByCategories, votePost, sortPosts} from '../actions';
+import {receivePosts, getPostsByCategories, votePost, sortPosts, fetchCategories} from '../actions';
 import { withRouter } from 'react-router-dom';
 import {connect} from 'react-redux';
 import { Button, Icon, Card } from 'semantic-ui-react';
 import uuid from 'uuid4';
+import CommentCount from './CommentCount';
 
 
 class PostList extends Component {
@@ -14,6 +15,7 @@ class PostList extends Component {
     componentDidMount() {
         const category = this.props.match.params.category;
         category ? this.props.getPostsByCategories(category) : this.props.receivePosts();
+        this.props.fetchCategories();
     }
 
     vote(id, option) {
@@ -22,17 +24,34 @@ class PostList extends Component {
 
 
     render() {
+        const category = this.props.match.params.category;
+
+
+        
+
         return (
+            
             <div>
-            <Link to="/"><Button><Icon name='home' />Home</Button></Link>
+            {category && <Link to="/"><Button><Icon name='home' />Home</Button></Link>}
             <Link to="/posts/new"><Button primary>Add Post</Button></Link>
-            <select onChange={(event) => {
-                this.props.sortPosts(event.target.value)
-            }}>
-                <option disabled selected="selected">Sort</option>
-                <option value="votes">Top Votes</option>
-                <option value="date">Most Recent</option>
-            </select>
+            {!category && 
+                <select onChange={(event) => {
+                    this.props.sortPosts(event.target.value)
+                }}>
+                    <option disabled defaultValue>Sort</option>
+                    <option value="votes">Top Votes</option>
+                    <option value="date">Most Recent</option>
+                </select>
+            }
+            
+            <div>
+            {   
+                this.props.categories.categories && this.props.categories.categories.map(item =>
+                (!category && <Link key={item.name} to={`/${item.name}/posts`}><Button><Icon name='tag' />{item.name}</Button></Link>)
+                
+            )}
+            </div>
+
             <ul style={{listStyleType: 'none'}}>
             <Card.Group>
             {this.props.posts && _.map(this.props.posts, post =>
@@ -44,9 +63,9 @@ class PostList extends Component {
                 <p>Author: {post.author}</p>
                 <Link to={`/${post.category}/posts`}>Category: {post.category}</Link>
                 <p>Created: {new Date(post.timestamp).toDateString()}</p>
-                <p>Votes: {post.voteScore}</p>
-                <Button onClick={()=>this.vote(post.id, 'upVote')}>Upvote</Button>
-                <Button onClick={()=>this.vote(post.id, 'downVote')}>Downvote</Button>
+                <CommentCount parentId={post.id} />
+                <Button content="Like" icon="thumbs up" label={{content: post.voteScore}} onClick={()=>this.vote(post.id, 'upVote')}></Button>
+                <Button icon="thumbs down" onClick={()=>this.vote(post.id, 'downVote')}></Button>
                 </li>
             </Card>) 
             )}
@@ -60,16 +79,10 @@ class PostList extends Component {
 function mapStateToProps(state) {
     console.log('map state: ', state);
     return {
-      posts: state.posts
+      posts: state.posts,
+      categories: state.categories
     }
 }
-  
-// function mapDispatchToProps(dispatch) {
-//     return {
-//       receivePosts: () => dispatch(receivePosts())
-//     }
-// }
 
 export default withRouter(
-    connect(mapStateToProps, {receivePosts, getPostsByCategories, votePost, sortPosts})
-    (PostList));
+    connect(mapStateToProps, {receivePosts, getPostsByCategories, votePost, sortPosts, fetchCategories})(PostList));
