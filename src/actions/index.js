@@ -8,6 +8,7 @@ const ROOT_URL = 'http://localhost:5001';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const CREATE_POST = 'CREATE_POST';
 export const FETCH_POST = 'FETCH_POST';
+export const FETCH_CATEGORIES = 'FETCH_CATEGORIES';
 export const DELETE_POST = 'DELETE_POST';
 export const FETCH_POSTS_CATEGORIES = 'FETCH__POSTS_CATEGORIES';
 export const EDIT_POST = 'EDIT_POST';
@@ -18,6 +19,8 @@ export const VOTE_POST = 'VOTE_POST';
 export const CREATE_COMMENT = 'CREATE_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const VOTE_COMMENT = 'VOTE_COMMENT';
+export const SORT_BY_DATE = 'SORT_BY_DATE';
+export const SORT_BY_VOTE = 'SORT_BY_VOTE';
 
 const headers = {
     headers: { 
@@ -26,6 +29,15 @@ const headers = {
 };
 
 
+export function fetchCategories() {
+    
+    const request = axios.get(`${ROOT_URL}/categories`, headers);
+
+    return {
+            type: FETCH_CATEGORIES,
+            payload: request
+    }
+}
 
 export function receivePosts() {
 
@@ -144,6 +156,21 @@ export function voteComment(id, option) {
             type: VOTE_COMMENT,
             payload: request
         }    
+}
+
+export function sortPosts(value) {
+    const request = axios.get(`${ROOT_URL}/posts`, headers);
+
+    if (value === 'date') {
+        return {
+          type: SORT_BY_DATE,
+          payload: request
+        }}
+    else {
+        return {
+          type: SORT_BY_VOTE,
+          payload: request
+        }}
 }
 
 // const fetchPosts = () => dispatch => (

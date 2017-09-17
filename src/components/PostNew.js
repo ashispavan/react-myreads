@@ -2,12 +2,18 @@ import React, {Component} from 'react';
 import {Field, reduxForm} from 'redux-form';
 import {Link} from 'react-router-dom';
 import uuid from 'uuid4';
-import {createPost} from '../actions';
+import {createPost, fetchCategories} from '../actions';
 import {connect} from 'react-redux';
 import { Button, Input, Form, Icon } from 'semantic-ui-react';
+import _ from 'lodash';
 
 
 class PostNew extends Component {
+
+    componentDidMount() {
+        this.props.fetchCategories();
+    }
+    
 
     renderField(field) {
         return (
@@ -19,11 +25,25 @@ class PostNew extends Component {
         );
     }
 
+    renderDropDown(field) {
+        return (
+            <Form.Field>
+                <label>{field.label}</label>
+                
+                <select  style={{width: '500px', marginLeft: '447px'}}  {...field.input} >
+                {this.props.categories.categories && this.props.categories.categories.map(category => 
+                    <option key={category.name} value={category.name}>{category.name}</option>
+                )}
+                </select>
+                <p>{field.meta.touched ? field.meta.error : ''}</p>
+            </Form.Field>
+        );
+    }
+
     onFormSubmit(values) {
         const defaultFormValues = {
             id: uuid(),
-            timestamp: Date.now(),
-            category: 'react'
+            timestamp: Date.now()
         };
         this.props.createPost({...values, ...defaultFormValues}, () => 
             this.props.history.push('/')
@@ -48,6 +68,11 @@ class PostNew extends Component {
                 component={this.renderField}
             />
             <Field
+                name="category"
+                label="Category"
+                component={this.renderDropDown.bind(this)}
+            />
+            <Field
                 name="body"
                 label="Content"
                 component={this.renderField}
@@ -70,7 +95,13 @@ function validate(values) {
     return errors;
 }
 
+function mapStateToProps({categories}, ownProps) {
+    return {
+        categories: categories
+    }
+}
+
 export default reduxForm({
     form: 'PostNewForm',
     validate
-})(connect(null, {createPost})(PostNew));
+})(connect(mapStateToProps, {createPost, fetchCategories})(PostNew));

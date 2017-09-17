@@ -40,8 +40,7 @@ class PostEdit extends Component {
         const id = this.props.match.params.id;
         const defaultFormValues = {
             id: id ? id : uuid(),
-            timestamp: Date.now(),
-            category: 'react'
+            timestamp: Date.now()
         };
         
         this.props.editPost({...values, ...defaultFormValues}, id, () => 

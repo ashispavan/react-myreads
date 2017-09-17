@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import _ from 'lodash';
 import {Link} from 'react-router-dom';
-import {receivePosts, getPostsByCategories, votePost} from '../actions';
+import {receivePosts, getPostsByCategories, votePost, sortPosts} from '../actions';
 import { withRouter } from 'react-router-dom';
 import {connect} from 'react-redux';
 import { Button, Icon, Card } from 'semantic-ui-react';
@@ -24,8 +24,15 @@ class PostList extends Component {
     render() {
         return (
             <div>
+            <Link to="/"><Button><Icon name='home' />Home</Button></Link>
             <Link to="/posts/new"><Button primary>Add Post</Button></Link>
-            
+            <select onChange={(event) => {
+                this.props.sortPosts(event.target.value)
+            }}>
+                <option disabled selected="selected">Sort</option>
+                <option value="votes">Top Votes</option>
+                <option value="date">Most Recent</option>
+            </select>
             <ul style={{listStyleType: 'none'}}>
             <Card.Group>
             {this.props.posts && _.map(this.props.posts, post =>
@@ -36,6 +43,7 @@ class PostList extends Component {
                 <Card.Meta>{post.body}</Card.Meta>
                 <p>Author: {post.author}</p>
                 <Link to={`/${post.category}/posts`}>Category: {post.category}</Link>
+                <p>Created: {new Date(post.timestamp).toDateString()}</p>
                 <p>Votes: {post.voteScore}</p>
                 <Button onClick={()=>this.vote(post.id, 'upVote')}>Upvote</Button>
                 <Button onClick={()=>this.vote(post.id, 'downVote')}>Downvote</Button>
@@ -62,4 +70,6 @@ function mapStateToProps(state) {
 //     }
 // }
 
-export default withRouter(connect(mapStateToProps, {receivePosts, getPostsByCategories, votePost})(PostList));
+export default withRouter(
+    connect(mapStateToProps, {receivePosts, getPostsByCategories, votePost, sortPosts})
+    (PostList));
