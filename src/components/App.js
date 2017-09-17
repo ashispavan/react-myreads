@@ -6,6 +6,7 @@ import PostShow from './PostShow';
 import PostsByCategory from './PostsByCategory';
 import PostEdit from './PostEdit';
 import CommentEdit from './CommentEdit';
+import CommentNew from './CommentNew';
 
 
 import {Link, Route, Switch} from 'react-router-dom';
@@ -25,17 +26,14 @@ class App extends Component {
         </div>
         <div className="App-intro">
         <Switch>
-        
-        <Route path="/:category/posts" component={PostsByCategory} />
         <Route path="/posts/:id/edit" component={PostEdit} />
         <Route path="/posts/new" component={PostNew} />
         <Route path="/posts/:id" component={PostShow} />
         <Route path="/comments/edit/:id" component={CommentEdit} />
-        <Route path="/" component={PostList} />
-        
-        
-        
+        <Route path="/comments/new/:parentId" component={CommentNew} />
+        <Route exact path="/" component={PostList} />    
         </Switch>
+        <Route exact path="/:category/posts" component={PostList} />
         </div>
       </div>
     );

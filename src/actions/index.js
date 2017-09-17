@@ -5,8 +5,6 @@ const ROOT_URL = 'http://localhost:5001';
 
 
 
-
-export const ADD_POST = 'ADD_POST';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const CREATE_POST = 'CREATE_POST';
 export const FETCH_POST = 'FETCH_POST';
@@ -17,6 +15,9 @@ export const FETCH_COMMENTS = 'FETCH_COMMENTS';
 export const FETCH_COMMENT = 'FETCH_COMMENT';
 export const EDIT_COMMENT = 'EDIT_COMMENT';
 export const VOTE_POST = 'VOTE_POST';
+export const CREATE_COMMENT = 'CREATE_COMMENT';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
+export const VOTE_COMMENT = 'VOTE_COMMENT';
 
 const headers = {
     headers: { 
@@ -101,11 +102,29 @@ export function getSingleComment(id) {
 }
 
 export function editComment(values, id, callback) {
-    const request = axios.put(`${ROOT_URL}/comments/${id}`, values, headers).then( () => callback());
+    const request = axios.put(`${ROOT_URL}/comments/${id}`, values, headers).then(() => callback());
 
     return {
         type: EDIT_COMMENT,
         payload: id
+    }
+}
+
+export function createComment(values, callback) {
+    const request = axios.post(`${ROOT_URL}/comments`, values, headers).then(() => callback());
+
+    return {
+        type: CREATE_COMMENT,
+        payload: request
+    }
+}
+
+export function deleteComment(id, callback) {
+    const request = axios.delete(`${ROOT_URL}/comments/${id}`, headers);
+
+    return {
+        type: DELETE_COMMENT,
+        payload: request
     }
 }
 
@@ -116,6 +135,15 @@ export function votePost(id, option) {
         type: VOTE_POST,
         payload: request
     }
+}
+
+export function voteComment(id, option) {
+    const request = axios.post(`${ROOT_URL}/comments/${id}`, option, headers);
+    
+        return {
+            type: VOTE_COMMENT,
+            payload: request
+        }    
 }
 
 // const fetchPosts = () => dispatch => (

@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {getPostsByCategories} from '../actions';
 import {Link} from 'react-router-dom';
 import _ from 'lodash';
+import { Button, Icon, Card } from 'semantic-ui-react';
 
 
 class PostsByCategory extends Component {
@@ -16,6 +17,7 @@ class PostsByCategory extends Component {
     render() {
         return(
             <ul style={{listStyleType: 'none'}}>
+            <Link to="/posts/new"><Button primary>Add Post</Button></Link>
             {this.props.posts && _.map(this.props.posts, post =>
             <li key={post.title}>
                 <Link to={`/posts/${post.id}`}>{post.title}</Link>

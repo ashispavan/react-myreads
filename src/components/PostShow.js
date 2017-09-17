@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {fetchPost, deletePost, getComments, votePost} from '../actions';
+import {fetchPost, deletePost, getComments, votePost, deleteComment} from '../actions';
+import CommentsList from './CommentsList';
 import { Button, Icon, Card } from 'semantic-ui-react';
 import _ from 'lodash';
 import uuid from 'uuid4';
@@ -13,14 +14,12 @@ class PostShow extends Component {
     componentDidMount() {
         const id = this.props.match.params.id;
         this.props.fetchPost(id);
-        this.props.getComments(id);
     }
 
     deletePost() {
         const id = this.props.match.params.id;
         this.props.deletePost(id, () => this.props.history.push('/'));
     }
-
 
     
     render() {
@@ -44,20 +43,8 @@ class PostShow extends Component {
                 <Button onClick={()=>this.props.votePost(post.id, { option: 'downVote'})}>Downvote</Button>
 
                 <h2>Comments</h2>
-
-                <ul style={{listStyleType: 'none'}}>
-                {this.props.comments && _.map(this.props.comments, comment =>
-                    
-                    <Card key={uuid()}>   
-                        <li key={uuid()}>
-                        <Card.Header>{comment.body}</Card.Header>
-                        <Card.Meta>Author: {comment.author}</Card.Meta>
-                        <p>Votes: {comment.voteScore}</p>
-                        <Link to={`/comments/edit/${comment.id}`}><Button>Edit</Button></Link>
-                        </li>
-                    </Card> 
-                    )}
-                </ul>
+                <Link to={`/comments/new/${post.id}`}><Button>Add Comment</Button></Link>
+                <CommentsList parentId={post.id} />
             </div>
         )
     }
@@ -70,4 +57,4 @@ function mapStateToProps({posts, comments}, ownProps) {
     }
 }
 
-export default connect(mapStateToProps, {fetchPost, deletePost, getComments, votePost})(PostShow);
+export default connect(mapStateToProps, {fetchPost, deletePost, getComments, votePost, deleteComment})(PostShow);

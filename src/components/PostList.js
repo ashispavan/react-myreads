@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import _ from 'lodash';
 import {Link} from 'react-router-dom';
-import {receivePosts, votePost} from '../actions';
+import {receivePosts, getPostsByCategories, votePost} from '../actions';
 import { withRouter } from 'react-router-dom';
 import {connect} from 'react-redux';
 import { Button, Icon, Card } from 'semantic-ui-react';
@@ -12,7 +12,8 @@ class PostList extends Component {
 
 
     componentDidMount() {
-        this.props.receivePosts();
+        const category = this.props.match.params.category;
+        category ? this.props.getPostsByCategories(category) : this.props.receivePosts();
     }
 
     vote(id, option) {
@@ -61,4 +62,4 @@ function mapStateToProps(state) {
 //     }
 // }
 
-export default withRouter(connect(mapStateToProps, {receivePosts, votePost})(PostList));
+export default withRouter(connect(mapStateToProps, {receivePosts, getPostsByCategories, votePost})(PostList));
