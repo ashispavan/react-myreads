@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {fetchPost, deletePost, getComments, votePost, deleteComment} from '../actions';
 import CommentsList from './CommentsList';
+import CommentCount from './CommentCount';
 import { Button, Icon, Card, Confirm, Segment } from 'semantic-ui-react';
 
 
@@ -38,22 +39,28 @@ class PostShow extends Component {
     
     render() {
         const {post, comments} = this.props;
+        const category = this.props.match.params.category;
         const {open} = this.state;
-        if (!post || !comments) {
-            return <div>Loading...</div>
+        if (!post) {
+            return <div>
+            <Link to="/"><Button><Icon name='home' />Home</Button></Link>
+            <p>No Posts found</p>
+            </div>
         }
+        else {
         return (
             <div>
             <Segment>
                 <Link to="/"><Button><Icon name='home' />Home</Button></Link>
-                <Button color="red" onClick={this.show.bind(this)}>Delete post</Button>
+                <Link to={`/posts/${post.id}/edit`}><Button><Icon name='edit'/>Edit Post</Button></Link>
+                <Button color="red" onClick={this.show.bind(this)}><Icon name='delete'/>Delete post</Button>
                 <Confirm
                     open={open}
                     onCancel={this.handleCancel.bind(this)}
                     onConfirm={this.handleConfirm.bind(this)}
                     content='Are you sure you want to delete this post?'
                 />    
-                <Link to={`/posts/${post.id}/edit`}><Button>Edit Post</Button></Link>
+                
                 
                 <h4>{post.title}</h4>
                 <p>Author: {post.author}</p>
@@ -62,12 +69,13 @@ class PostShow extends Component {
                 <p>{post.body}</p>
                 <Button icon="thumbs up" label={{content: post.voteScore}} onClick={()=>this.props.votePost(post.id, { option: 'upVote'})}></Button>
                 <Button icon="thumbs down" onClick={()=>this.props.votePost(post.id, { option: 'downVote'})}></Button>
-
+                <CommentCount parentId={post.id} />
                 <Link to={`/comments/new/${post.id}`}><Button>Add Comment</Button></Link>
-                </Segment>
-                <CommentsList parentId={post.id} />
+            </Segment>
+                <CommentsList parentId={post.id} category={category} />
             </div>
         )
+        }
     }
 }
 

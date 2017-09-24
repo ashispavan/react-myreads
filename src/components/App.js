@@ -27,12 +27,12 @@ class App extends Component {
         <Switch>
         <Route path="/posts/:id/edit" component={PostEdit} />
         <Route path="/posts/new" component={PostNew} />
-        <Route path="/posts/:id" component={PostShow} />
-        <Route path="/comments/edit/:id" component={CommentEdit} />
         <Route path="/comments/new/:parentId" component={CommentNew} />
+        <Route path="/comments/edit/:id" component={CommentEdit} /> 
+        <Route path="/:category/:id" component={PostShow} />  
         <Route exact path="/" component={PostList} />    
         </Switch>
-        <Route exact path="/:category/posts" component={PostList} />
+        <Route exact path="/:category/" component={PostList} />
         </div>
       </div>
     );

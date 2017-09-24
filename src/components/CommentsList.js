@@ -25,13 +25,13 @@ class CommentsList extends Component {
                 <Comment key={uuid()}>
                 <Comment.Avatar src={user} />   
                     <Comment.Content key={uuid()}>
-                    <Comment.Author>{comment.author}<Comment.Metadata><Icon name="heart" />{comment.voteScore}</Comment.Metadata></Comment.Author>
+                    <Comment.Author>{comment.author}<Comment.Metadata><Icon name="heart" color="red" />{comment.voteScore}</Comment.Metadata></Comment.Author>
                     <Comment.Text>{comment.body}</Comment.Text>
                     
                     <Comment.Actions>
                         <Link to={`/comments/edit/${comment.id}`}>Edit</Link>
                         <Comment.Action onClick={() => 
-                            this.props.deleteComment(comment.id)}>
+                            this.props.deleteComment(comment.id, () => this.props.history.push(`/${this.props.category}/${this.props.parentId}`))}>
                             Delete
                         </Comment.Action>
                         <Comment.Action onClick={()=>this.props.voteComment(comment.id, { option: 'upVote'})}><Icon size="large" name="thumbs up" /></Comment.Action>
@@ -48,7 +48,8 @@ class CommentsList extends Component {
 function mapStateToProps({comments}, ownProps) {   
     return {
         comments: comments,
-        parentId: ownProps.parentId
+        parentId: ownProps.parentId,
+        category: ownProps.category
     }
 }
 
