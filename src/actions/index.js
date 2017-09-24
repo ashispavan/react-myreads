@@ -1,9 +1,6 @@
-//import * as API from '../utils/api';
 import axios from 'axios';
 
 const ROOT_URL = 'http://localhost:5001';
-
-
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const CREATE_POST = 'CREATE_POST';
@@ -41,10 +38,7 @@ export function fetchCategories() {
 }
 
 export function receivePosts() {
-
     const response = axios.get(`${ROOT_URL}/posts`, headers);
-
-    console.log('Action sent: ', response);
     return {
         type: RECEIVE_POSTS,
         payload: response
@@ -53,7 +47,6 @@ export function receivePosts() {
 
 export function createPost(values, callback) {
     const request = axios.post(`${ROOT_URL}/posts`, values, headers).then(() => callback());
-
     return {
         type: CREATE_POST,
         payload: values
@@ -62,7 +55,6 @@ export function createPost(values, callback) {
 
 export function editPost(values, id, callback) {
     const request = axios.put(`${ROOT_URL}/posts/${id}`, values, headers).then(() => callback());
-
     return {
         type: EDIT_POST,
         payload: values
@@ -71,7 +63,6 @@ export function editPost(values, id, callback) {
 
 export function fetchPost(id) {
     const request = axios.get(`${ROOT_URL}/posts/${id}`, headers);
-
     return {
         type: FETCH_POST,
         payload: request
@@ -80,7 +71,6 @@ export function fetchPost(id) {
 
 export function deletePost(id, callback) {
     const request = axios.delete(`${ROOT_URL}/posts/${id}`, headers).then( () => callback());
-
     return {
         type: DELETE_POST,
         payload: id
@@ -89,7 +79,6 @@ export function deletePost(id, callback) {
 
 export function getPostsByCategories(category) {
     const request = axios.get(`${ROOT_URL}/${category}/posts`, headers);
-
     return {
         type: FETCH_POSTS_CATEGORIES,
         payload: request
@@ -98,7 +87,6 @@ export function getPostsByCategories(category) {
 
 export function getComments(id) {
     const request = axios.get(`${ROOT_URL}/posts/${id}/comments`, headers);
-
     return {
         type: FETCH_COMMENTS,
         payload: request
@@ -107,7 +95,6 @@ export function getComments(id) {
 
 export function getSingleComment(id) {
     const request = axios.get(`${ROOT_URL}/comments/${id}`, headers);
-
     return {
         type: FETCH_COMMENT,
         payload: request
@@ -116,7 +103,6 @@ export function getSingleComment(id) {
 
 export function editComment(values, id, callback) {
     const request = axios.put(`${ROOT_URL}/comments/${id}`, values, headers).then(() => callback());
-
     return {
         type: EDIT_COMMENT,
         payload: id
@@ -125,7 +111,6 @@ export function editComment(values, id, callback) {
 
 export function createComment(values, callback) {
     const request = axios.post(`${ROOT_URL}/comments`, values, headers).then(() => callback());
-
     return {
         type: CREATE_COMMENT,
         payload: request
@@ -134,7 +119,6 @@ export function createComment(values, callback) {
 
 export function deleteComment(id, callback) {
     const request = axios.delete(`${ROOT_URL}/comments/${id}`, headers);
-
     return {
         type: DELETE_COMMENT,
         payload: request
@@ -143,7 +127,6 @@ export function deleteComment(id, callback) {
 
 export function votePost(id, option) {
     const request = axios.post(`${ROOT_URL}/posts/${id}`, option, headers);
-
     return {
         type: VOTE_POST,
         payload: request
@@ -151,12 +134,11 @@ export function votePost(id, option) {
 }
 
 export function voteComment(id, option) {
-    const request = axios.post(`${ROOT_URL}/comments/${id}`, option, headers);
-    
-        return {
-            type: VOTE_COMMENT,
-            payload: request
-        }    
+    const request = axios.post(`${ROOT_URL}/comments/${id}`, option, headers);  
+    return {
+        type: VOTE_COMMENT,
+        payload: request
+    }    
 }
 
 export function sortPosts(value) {
@@ -182,9 +164,3 @@ export function getCommentCount(parentId) {
         meta: parentId
     }
 }
-
-// const fetchPosts = () => dispatch => (
-//     API.fetchPosts().then(posts => dispatch(receivePosts(posts)))
-// );
-
-//export {fetchPosts};

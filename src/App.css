@@ -17,17 +17,34 @@
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  height: 75px;
+  position: relative;
+  right: 125px;
+}
+
+.App-title {
+  position: relative;
+  bottom: 69px;
+  right: 256px;
+  font-size: 3em;
+  color: #61DAFB;
 }
 
 .App-header {
   background-color: #222;
-  height: 150px;
+  height: 77px;
   color: white;
+  margin-bottom: 15px;
 }
 
 .App-intro {
   font-size: large;
+}
+
+.addPost {
+  float: left;
+  position: relative;
+  left: 346px;
 }
 
 .comments {

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import { getComments, deleteComment, voteComment} from '../actions';
-import { Button, Icon, Card, Comment, Header } from 'semantic-ui-react';
+import { Icon, Comment, Header } from 'semantic-ui-react';
 import _ from 'lodash';
 import uuid from 'uuid4';
 import user from '../matt.jpg';

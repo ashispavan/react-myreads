@@ -26,7 +26,6 @@ function postsReducer (postState = {}, action) {
         default:
             return postState;
 
-
     }
 
 }

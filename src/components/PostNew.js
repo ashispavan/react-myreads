@@ -52,33 +52,31 @@ class PostNew extends Component {
 
     render() {
         return (
-            <div>
-            
-            <Link to="/"><Button><Icon name='home' />Home</Button></Link>
-            <Form onSubmit={this.props.handleSubmit(this.onFormSubmit.bind(this))}>
-            <Field
-                name="title"
-                label="Title"
-                component={this.renderField}
-            />
-            <Field
-                name="author"
-                label="Author"
-                component={this.renderField}
-            />
-            <Field
-                name="category"
-                label="Category"
-                component={this.renderDropDown.bind(this)}
-            />
-            <Field
-                name="body"
-                label="Content"
-                component={this.renderField}
-            />
-            <Button type="submit">Submit</Button>
-            </Form>
-            
+            <div>    
+                <Link to="/"><Button positive><Icon name='home' />Home</Button></Link>
+                <Form onSubmit={this.props.handleSubmit(this.onFormSubmit.bind(this))}>
+                    <Field
+                        name="title"
+                        label="Title"
+                        component={this.renderField}
+                    />
+                    <Field
+                        name="author"
+                        label="Author"
+                        component={this.renderField}
+                    />
+                    <Field
+                        name="category"
+                        label="Category"
+                        component={this.renderDropDown.bind(this)}
+                    />
+                    <Field
+                        name="body"
+                        label="Content"
+                        component={this.renderField}
+                    />
+                    <Button primary type="submit">Submit</Button>
+                </Form>           
             </div>
         );
     }

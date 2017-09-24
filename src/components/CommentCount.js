@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import _ from 'lodash';
 import {getCommentCount} from '../actions';
 import {connect} from 'react-redux';
-import { Button, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 
 
 class CommentCount extends Component {

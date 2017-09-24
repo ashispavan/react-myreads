@@ -20,9 +20,9 @@ class PostEdit extends Component {
             title: this.props.post.title,
             author: this.props.post.author,
             body: this.props.post.body
-          };
+        };
       
-          this.props.initialize(initData);
+        this.props.initialize(initData);
     }
     
 
@@ -39,8 +39,7 @@ class PostEdit extends Component {
     onFormSubmit(values) {
         const id = this.props.match.params.id;
         const defaultFormValues = {
-            id: id ? id : uuid(),
-            timestamp: Date.now()
+            id: id ? id : uuid()
         };
         
         this.props.editPost({...values, ...defaultFormValues}, id, () => 
@@ -52,7 +51,7 @@ class PostEdit extends Component {
     render() {
         return (
             <div>
-            <Link to="/"><Button><Icon name='home' />Home</Button></Link>
+            <Link to="/"><Button positive><Icon name='home' />Home</Button></Link>
             <Form onSubmit={this.props.handleSubmit(this.onFormSubmit.bind(this))}>
             <Field
                 name="title"
@@ -69,7 +68,7 @@ class PostEdit extends Component {
                 label="Content"
                 component={this.renderField}
             />
-            <Button type="submit">Submit</Button>
+            <Button primary type="submit">Submit</Button>
             </Form>
             </div>
         );

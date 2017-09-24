@@ -36,7 +36,7 @@ class CommentNew extends Component {
         return (
             <div>
             
-            <Link to="/"><Button><Icon name='home' />Home</Button></Link>
+            <Link to="/"><Button positive><Icon name='home' />Home</Button></Link>
             <Form onSubmit={this.props.handleSubmit(this.onFormSubmit.bind(this))}>
             <Field
                 name="body"
@@ -48,7 +48,7 @@ class CommentNew extends Component {
                 label="Author"
                 component={this.renderField}
             />
-            <Button type="submit">Submit</Button>
+            <Button primary type="submit">Submit</Button>
             </Form>
             
             </div>
@@ -59,8 +59,11 @@ class CommentNew extends Component {
 function validate(values) {
     const errors = {};
 
-    if(!values.title) {
-        errors.title = "Please enter a title for the post";
+    if(!values.body) {
+        errors.body = "Please enter a comment";
+    }
+    if(!values.author) {
+        errors.author = "Please enter your name"
     }
 
     return errors;

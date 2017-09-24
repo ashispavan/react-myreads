@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import uuid from 'uuid4';
 import {getSingleComment, editComment} from '../actions';
 import {connect} from 'react-redux';
-import { Button, Form, Input, Icon } from 'semantic-ui-react';
+import { Button, Form, Input } from 'semantic-ui-react';
 
 
 class CommentEdit extends Component {
@@ -61,7 +61,7 @@ class CommentEdit extends Component {
                 label="Author"
                 component={this.renderField}
             />
-            <Button type="submit">Submit</Button>
+            <Button primary type="submit">Submit</Button>
             <Link to={`/posts/${parentId}`}><Button>Cancel</Button></Link>
             </Form>
         );
@@ -72,7 +72,10 @@ function validate(values) {
     const errors = {};
 
     if(!values.body) {
-        errors.title = "Please enter a comment";
+        errors.body = "Please enter a comment";
+    }
+    if(!values.author) {
+        errors.author = "Please enter your name"
     }
 
     return errors;

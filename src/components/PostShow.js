@@ -3,8 +3,7 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {fetchPost, deletePost, getComments, votePost, deleteComment} from '../actions';
 import CommentsList from './CommentsList';
-import CommentCount from './CommentCount';
-import { Button, Icon, Card, Confirm, Segment } from 'semantic-ui-react';
+import { Button, Icon, Confirm, Segment } from 'semantic-ui-react';
 import _ from 'lodash';
 
 
@@ -52,28 +51,30 @@ class PostShow extends Component {
         else {
         return (
             <div>
-            <Segment>
-                <Link to="/"><Button><Icon name='home' />Home</Button></Link>
-                <Link to={`/posts/${post.id}/edit`}><Button><Icon name='edit'/>Edit Post</Button></Link>
-                <Button color="red" onClick={this.show.bind(this)}><Icon name='delete'/>Delete post</Button>
-                <Confirm
-                    open={open}
-                    onCancel={this.handleCancel.bind(this)}
-                    onConfirm={this.handleConfirm.bind(this)}
-                    content='Are you sure you want to delete this post?'
-                />    
-                
-                
-                <h4>{post.title}</h4>
-                <p>Author: {post.author}</p>
-                <p>Votes: {post.voteScore}</p>
-                <br />
-                <p>{post.body}</p>
-                <Button icon="thumbs up" label={{content: post.voteScore}} onClick={()=>this.props.votePost(post.id, { option: 'upVote'})}></Button>
-                <Button icon="thumbs down" onClick={()=>this.props.votePost(post.id, { option: 'downVote'})}></Button>
-                <p><Icon name="comments" />{commentCount}</p>
-                <Link to={`/comments/new/${post.id}`}><Button>Add Comment</Button></Link>
-            </Segment>
+                <Segment>
+                    <Link to="/"><Button positive><Icon name='home' />Home</Button></Link>
+                    <Link to={`/posts/${post.id}/edit`}><Button><Icon name='edit'/>Edit Post</Button></Link>
+                    <Button color="red" onClick={this.show.bind(this)}><Icon name='delete'/>Delete post</Button>
+                    <Confirm
+                        open={open}
+                        onCancel={this.handleCancel.bind(this)}
+                        onConfirm={this.handleConfirm.bind(this)}
+                        content='Are you sure you want to delete this post?'
+                    />    
+                     
+                    <h4>{post.title}</h4>
+                    <p>Author: {post.author}</p>
+                    <br />
+                    <p>{post.body}</p>
+                    <p>Created: {new Date(post.timestamp).toDateString()}</p>
+                    <Button.Group>
+                        <Button primary icon="thumbs up" onClick={()=>this.props.votePost(post.id, { option: 'upVote'})}></Button>
+                        <Button.Or text={post.voteScore} />
+                        <Button icon="thumbs down" onClick={()=>this.props.votePost(post.id, { option: 'downVote'})}></Button>
+                    </Button.Group>
+                    <p><Icon name="comments" />{commentCount}</p>
+                    <Link to={`/comments/new/${post.id}`}><Button>Add Comment</Button></Link>
+                </Segment>
                 <CommentsList parentId={post.id} category={category} />
             </div>
         )
