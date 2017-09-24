@@ -16,7 +16,7 @@ class CommentCount extends Component {
         const parentId = this.props.parentId;
         const noOfComments = this.props.commentCount ? _.size(this.props.commentCount[parentId]) : 0;
         return (
-            <p><Icon name="comments"></Icon> {noOfComments}</p>
+            <p className="commentCount"><Icon name="comments"></Icon> {noOfComments}</p>
         );
     }
     
@@ -24,7 +24,6 @@ class CommentCount extends Component {
 
 function mapStateToProps({commentCount}, ownProps) {
 
-    console.log("COMMENTS ON MAIN PAGE:", commentCount);
     return {
         commentCount: commentCount,
         parentId: ownProps.parentId

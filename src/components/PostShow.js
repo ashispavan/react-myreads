@@ -5,6 +5,7 @@ import {fetchPost, deletePost, getComments, votePost, deleteComment} from '../ac
 import CommentsList from './CommentsList';
 import CommentCount from './CommentCount';
 import { Button, Icon, Card, Confirm, Segment } from 'semantic-ui-react';
+import _ from 'lodash';
 
 
 class PostShow extends Component {
@@ -39,6 +40,7 @@ class PostShow extends Component {
     
     render() {
         const {post, comments} = this.props;
+        const commentCount = _.size(comments) ? _.size(comments) : 0;
         const category = this.props.match.params.category;
         const {open} = this.state;
         if (!post) {
@@ -69,7 +71,7 @@ class PostShow extends Component {
                 <p>{post.body}</p>
                 <Button icon="thumbs up" label={{content: post.voteScore}} onClick={()=>this.props.votePost(post.id, { option: 'upVote'})}></Button>
                 <Button icon="thumbs down" onClick={()=>this.props.votePost(post.id, { option: 'downVote'})}></Button>
-                <CommentCount parentId={post.id} />
+                <p><Icon name="comments" />{commentCount}</p>
                 <Link to={`/comments/new/${post.id}`}><Button>Add Comment</Button></Link>
             </Segment>
                 <CommentsList parentId={post.id} category={category} />

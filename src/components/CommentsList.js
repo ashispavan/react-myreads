@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import { getComments, deleteComment, voteComment} from '../actions';
 import { Button, Icon, Card, Comment, Header } from 'semantic-ui-react';
@@ -31,7 +31,7 @@ class CommentsList extends Component {
                     <Comment.Actions>
                         <Link to={`/comments/edit/${comment.id}`}>Edit</Link>
                         <Comment.Action onClick={() => 
-                            this.props.deleteComment(comment.id, () => this.props.history.push(`/${this.props.category}/${this.props.parentId}`))}>
+                            this.props.deleteComment(comment.id)}>
                             Delete
                         </Comment.Action>
                         <Comment.Action onClick={()=>this.props.voteComment(comment.id, { option: 'upVote'})}><Icon size="large" name="thumbs up" /></Comment.Action>
@@ -53,7 +53,7 @@ function mapStateToProps({comments}, ownProps) {
     }
 }
 
-export default connect(mapStateToProps, {getComments, deleteComment, voteComment})(CommentsList);
+export default withRouter(connect(mapStateToProps, {getComments, deleteComment, voteComment})(CommentsList));
 
 
 

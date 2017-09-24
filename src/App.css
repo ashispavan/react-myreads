@@ -1,5 +1,18 @@
+
 .App {
   text-align: center;
+  background-color: #E9EBEE;
+}
+
+.title {
+  font-size: 1.4em;
+}
+
+.commentCount {
+  float: right;
+  position: relative;
+  right: 250px;
+  top: 5px;
 }
 
 .App-logo {
@@ -31,12 +44,19 @@
   width: 13% !important;
   margin-left: auto !important;
   margin-right: auto !important;
+  float: right;
+  position: relative;
+  right: 345px;
 }
 
 .segment {
   width: 50%;
   margin-left: auto !important;
   margin-right: auto !important;
+}
+
+.up {
+  cursor: pointer;
 }
 
 @keyframes App-logo-spin {

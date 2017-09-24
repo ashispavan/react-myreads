@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import {receivePosts, getPostsByCategories, votePost, sortPosts, fetchCategories} from '../actions';
 import { withRouter } from 'react-router-dom';
 import {connect} from 'react-redux';
-import { Button, Icon, Card, Segment, Dropdown } from 'semantic-ui-react';
+import { Button, Icon, Card, Segment, Dropdown, Comment } from 'semantic-ui-react';
 import uuid from 'uuid4';
 import CommentCount from './CommentCount';
 
@@ -40,6 +40,7 @@ class PostList extends Component {
             
             <div>
             {category && <Link to="/"><Button><Icon name='home' />Home</Button></Link>}
+            <div>
             <Link to="/posts/new"><Button primary>Add Post</Button></Link>
             {!category && 
                 <Dropdown placeholder='Sort by:' fluid selection onChange={(event) => {
@@ -47,8 +48,10 @@ class PostList extends Component {
                 }} options={sortOptions}>
                 </Dropdown>
             }
+            </div>
             
             <div>
+            Categories:
             {   
                 this.props.categories.categories && this.props.categories.categories.map(item =>
                 (!category && <Link key={item.name} to={`/${item.name}`}><Button><Icon name='tag' />{item.name}</Button></Link>)
@@ -59,13 +62,16 @@ class PostList extends Component {
             {this.props.posts && _.map(this.props.posts, post =>
             (!post.deleted &&
             <Segment raised key={uuid()}>   
-                <Link to={`/${post.category}/${post.id}`}>{post.title}</Link>
+                <Link className="title" to={`/${post.category}/${post.id}`}>{post.title}</Link>
                 <p>Author: {post.author}</p>
                 <Link to={`/${post.category}`}>Category: {post.category}</Link>
                 <p>Created: {new Date(post.timestamp).toDateString()}</p>
                 <CommentCount parentId={post.id} />
-                <Button icon="thumbs up" label={{content: post.voteScore}} onClick={()=>this.vote(post.id, 'upVote')}></Button>
+                <Button.Group>
+                <Button icon="thumbs up" primary onClick={()=>this.vote(post.id, 'upVote')}></Button>
+                <Button.Or text={post.voteScore} />
                 <Button icon="thumbs down" onClick={()=>this.vote(post.id, 'downVote')}></Button>
+                </Button.Group>
             </Segment>) 
             )}
             </div>
