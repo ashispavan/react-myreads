@@ -20,8 +20,7 @@ class PostEdit extends Component {
             title: this.props.post.title,
             author: this.props.post.author,
             body: this.props.post.body
-        };
-      
+        };      
         this.props.initialize(initData);
     }
     

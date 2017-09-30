@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import _ from 'lodash';
 import {Link} from 'react-router-dom';
-import {receivePosts, getPostsByCategories, votePost, sortPosts, fetchCategories} from '../actions';
+import {receivePosts, getPostsByCategories, deletePost, votePost, sortPosts, fetchCategories} from '../actions';
 import { withRouter } from 'react-router-dom';
 import {connect} from 'react-redux';
 import { Button, Icon, Segment, Dropdown } from 'semantic-ui-react';
@@ -65,11 +65,16 @@ class PostList extends Component {
                     <Link to={`/${post.category}`}>Category: {post.category}</Link>
                     <p>Created: {new Date(post.timestamp).toDateString()}</p>
                     <CommentCount parentId={post.id} />
-                    <Button.Group>
-                    <Button icon="thumbs up" primary onClick={()=>this.vote(post.id, 'upVote')}></Button>
+                    <div className="postActions">
+                        <Link to={`/posts/${post.id}/edit`}><Button size='mini'><Icon name='edit'/>Edit post</Button></Link>
+                        <Button size='mini' color="red" onClick={() => this.props.deletePost(post.id, () => this.props.receivePosts())}><Icon name='delete'/>Delete post</Button>                    
+                    </div>
+                    <Button.Group className="voteButtons">
+                    <Button compact size='mini' icon="thumbs up" primary onClick={()=>this.vote(post.id, 'upVote')}></Button>
                     <Button.Or text={post.voteScore} />
-                    <Button icon="thumbs down" onClick={()=>this.vote(post.id, 'downVote')}></Button>
+                    <Button compact size='mini' icon="thumbs down" onClick={()=>this.vote(post.id, 'downVote')}></Button>
                     </Button.Group>
+                    
                 </Segment>) 
                 )}
             </div>
@@ -85,4 +90,4 @@ function mapStateToProps(state) {
 }
 
 export default withRouter(
-    connect(mapStateToProps, {receivePosts, getPostsByCategories, votePost, sortPosts, fetchCategories})(PostList));
+    connect(mapStateToProps, {receivePosts, getPostsByCategories, deletePost, votePost, sortPosts, fetchCategories})(PostList));

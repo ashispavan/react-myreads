@@ -44,7 +44,7 @@
 .addPost {
   float: left;
   position: relative;
-  left: 346px;
+  left: 350px;
 }
 
 .comments {
@@ -74,6 +74,16 @@
 
 .up {
   cursor: pointer;
+}
+
+.postActions {
+  float: right;
+}
+
+.voteButtons {
+  position: relative;
+  left: 116px;
+  bottom: 3px;
 }
 
 @keyframes App-logo-spin {
