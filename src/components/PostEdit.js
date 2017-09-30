@@ -80,6 +80,12 @@ function validate(values) {
     if(!values.title) {
         errors.title = "Please enter a title for the post";
     }
+    if(!values.body) {
+        errors.body = "Please enter some content";
+    }
+    if(!values.author) {
+        errors.author = "Please enter your name";
+    }
 
     return errors;
 }

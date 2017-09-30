@@ -9,6 +9,11 @@ import { Button, Form, Input } from 'semantic-ui-react';
 
 class CommentEdit extends Component {
 
+    constructor(props) {
+        super(props);
+        this.onFormSubmit = this.onFormSubmit.bind(this);
+    }
+
     componentDidMount() {
         const id = this.props.match.params.id;
         this.props.getSingleComment(id).then(() => this.initializeValues());
@@ -50,7 +55,7 @@ class CommentEdit extends Component {
     render() {
         const parentId = this.props.comment.parentId;
         return (
-            <Form onSubmit={this.props.handleSubmit(this.onFormSubmit.bind(this))}>
+            <Form onSubmit={this.props.handleSubmit(this.onFormSubmit)}>
             <Field
                 name="body"
                 label="Comment"

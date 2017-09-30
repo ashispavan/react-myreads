@@ -9,6 +9,11 @@ import { Button, Input, Form, Icon } from 'semantic-ui-react';
 
 class PostNew extends Component {
 
+    constructor(){
+        super();
+        this.onFormSubmit = this.onFormSubmit.bind(this);
+    }
+
     componentDidMount() {
         this.props.fetchCategories();
     }
@@ -30,6 +35,7 @@ class PostNew extends Component {
                 <label>{field.label}</label>
                 
                 <select  style={{width: '500px', marginLeft: '447px'}}  {...field.input} >
+                <option value="">Select category</option>
                 {this.props.categories.categories && this.props.categories.categories.map(category => 
                     <option key={category.name} value={category.name}>{category.name}</option>
                 )}
@@ -54,7 +60,7 @@ class PostNew extends Component {
         return (
             <div>    
                 <Link to="/"><Button positive><Icon name='home' />Home</Button></Link>
-                <Form onSubmit={this.props.handleSubmit(this.onFormSubmit.bind(this))}>
+                <Form onSubmit={this.props.handleSubmit(this.onFormSubmit)}>
                     <Field
                         name="title"
                         label="Title"
@@ -87,6 +93,15 @@ function validate(values) {
 
     if(!values.title) {
         errors.title = "Please enter a title for the post";
+    }
+    if(!values.category) {
+        errors.category = "Please select a category";
+    }
+    if(!values.body) {
+        errors.body = "Please enter some content";
+    }
+    if(!values.author) {
+        errors.author = "Please enter your name";
     }
 
     return errors;

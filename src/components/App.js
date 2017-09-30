@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import logo from '../logo.svg';
 import '../App.css';
 import PostList from './PostList';
@@ -11,10 +11,8 @@ import {Route, Switch} from 'react-router-dom';
 import PostNew from './PostNew';
 
 
-class App extends Component {
+function App() {
 
-  render() {
-    
     return (
       <div className="App">
         <div className="App-header">
@@ -34,7 +32,8 @@ class App extends Component {
         </div>
       </div>
     );
-  }
+
 }
+
 
 export default App;

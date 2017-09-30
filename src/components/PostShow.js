@@ -23,16 +23,16 @@ class PostShow extends Component {
         this.props.deletePost(id, () => this.props.history.push('/'));
     }
 
-    handleConfirm() { 
+    handleConfirm = () => { 
         this.deletePost();
         this.setState({ open: false });
     }
 
-    handleCancel() { 
+    handleCancel = () => { 
         this.setState({ open: false });
     }
 
-    show() {
+    show = () => {
         this.setState({ open: true });
     }
 
@@ -54,11 +54,11 @@ class PostShow extends Component {
                 <Segment>
                     <Link to="/"><Button positive><Icon name='home' />Home</Button></Link>
                     <Link to={`/posts/${post.id}/edit`}><Button><Icon name='edit'/>Edit Post</Button></Link>
-                    <Button color="red" onClick={this.show.bind(this)}><Icon name='delete'/>Delete post</Button>
+                    <Button color="red" onClick={this.show}><Icon name='delete'/>Delete post</Button>
                     <Confirm
                         open={open}
-                        onCancel={this.handleCancel.bind(this)}
-                        onConfirm={this.handleConfirm.bind(this)}
+                        onCancel={this.handleCancel}
+                        onConfirm={this.handleConfirm}
                         content='Are you sure you want to delete this post?'
                     />    
                      
